@@ -16,6 +16,16 @@ namespace AElf.Contracts.ACS404
                 Context.GetContractAddressByName(SmartContractConstants.TokenContractSystemName);
         }
 
+        private void AssertSenderIsAdmin()
+        {
+            Assert(Context.Sender == State.Admin.Value, $"No permission. Admin is {State.Admin.Value}. ");
+        }
+
+        private void AssertSenderIsImageUploader()
+        {
+            Assert(Context.Sender == State.ImageUploader.Value, $"No permission. Image uploader is {State.ImageUploader.Value}. ");
+        }
+
         private void AssertSymbolExists(string symbol)
         {
             RequireTokenContractStateSet();

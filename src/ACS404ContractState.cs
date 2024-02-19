@@ -12,6 +12,7 @@ namespace AElf.Contracts.ACS404
         public SingletonState<bool> Initialized { get; set; }
         public SingletonState<Address> ServiceWallet { get; set; }
         public SingletonState<Address> Admin { get; set; }
+        public SingletonState<Address> ImageUploader { get; set; }
         public StringState FungibleTokenSymbol { get; set; }
         public StringState InscriptionTokenSymbol { get; set; }
         public MappedState<Address, ImageBytes> PreviewState { get; set; }

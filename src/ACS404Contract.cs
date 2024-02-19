@@ -14,11 +14,13 @@ namespace AElf.Contracts.ACS404
             Assert(!State.Initialized.Value, "Already initialized.");
             Assert(input.Admin.Value != null, "Admin address is invalid!");
             Assert(input.ServiceWallet.Value != null, "Service wallet address is invalid!");
+            Assert(input.ImageUploader.Value != null, "Image uploader address is invalid!");
             AssertSymbolExists(input.FungibleTokenSymbol);
             AssertSymbolExists(input.InscriptionTokenSymbol);
 
             State.Admin.Value = input.Admin;
             State.ServiceWallet.Value = input.ServiceWallet;
+            State.ImageUploader.Value = input.ImageUploader;
 
             State.FungibleTokenSymbol.Value = input.FungibleTokenSymbol;
             State.InscriptionTokenSymbol.Value = input.InscriptionTokenSymbol;
@@ -70,6 +72,21 @@ namespace AElf.Contracts.ACS404
             return new Empty();
         }
 
+        public override Empty UploadImage(UploadImageInput input)
+        {
+            AssertSenderIsImageUploader();
+
+            State.PreviewState[input.UserAddress] = input.ImageBytes;
+
+            Context.Fire(new UploadImageEvent
+            {
+                UserAddress = input.UserAddress,
+                ImageBytes = input.ImageBytes
+            });
+
+            return new Empty();
+        }
+
         public override Empty Exchange(ExchangeInput input)
         {
             return new Empty();
@@ -78,11 +95,6 @@ namespace AElf.Contracts.ACS404
         public override Empty Mint(MintInput input)
         {
             return new Empty();
-        }
-
-        private void AssertSenderIsAdmin()
-        {
-            Assert(Context.Sender == State.Admin.Value, $"No permission. Admin is {State.Admin.Value}. ");
         }
     }
     

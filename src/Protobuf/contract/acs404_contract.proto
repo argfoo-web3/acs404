@@ -33,6 +33,10 @@ service ACS404Contract {
   rpc Preview (google.protobuf.Empty) returns (google.protobuf.Empty) {
   }
 
+  // Uploads an image
+  rpc UploadImage (UploadImageInput) returns (google.protobuf.Empty) {
+  }
+
   rpc Exchange (ExchangeInput) returns (google.protobuf.Empty) {
   }
 
@@ -43,8 +47,14 @@ service ACS404Contract {
 message InitializeInput {
   aelf.Address admin = 1;
   aelf.Address serviceWallet = 2;
-  string fungibleTokenSymbol = 3;
-  string inscriptionTokenSymbol = 4;
+  aelf.Address imageUploader = 3;
+  string fungibleTokenSymbol = 4;
+  string inscriptionTokenSymbol = 5;
+}
+
+message UploadImageInput {
+  aelf.Address userAddress = 1;
+  bytes imageBytes = 2;
 }
 
 message ExchangeInput {
@@ -64,7 +74,7 @@ message PreviewEvent {
 }
 
 // An event that will be emitted when an image is uploaded
-message SetImageEvent {
+message UploadImageEvent {
   option (aelf.is_event) = true;
   aelf.Address userAddress = 1;
   bytes imageBytes = 2;
