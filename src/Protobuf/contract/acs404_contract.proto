@@ -38,22 +38,13 @@ service ACS404Contract {
 
   rpc Mint (MintInput) returns (google.protobuf.Empty) {
   }
-
-  // Actions (methods that modify contract state)
-  // Stores the value in contract state
-  rpc Update (google.protobuf.StringValue) returns (google.protobuf.Empty) {
-  }
-
-  // Views (methods that don't modify contract state)
-  // Get the value stored from contract state
-  rpc Read (google.protobuf.Empty) returns (google.protobuf.StringValue) {
-    option (aelf.is_view) = true;
-  }
 }
 
 message InitializeInput {
   aelf.Address admin = 1;
   aelf.Address serviceWallet = 2;
+  string fungibleTokenSymbol = 3;
+  string inscriptionTokenSymbol = 4;
 }
 
 message ExchangeInput {
@@ -63,12 +54,6 @@ message ExchangeInput {
 
 message MintInput {
   int64 mintTotalSupply = 1;
-}
-
-// An event that will be emitted from contract method call
-message UpdatedMessage {
-  option (aelf.is_event) = true;
-  string value = 1;
 }
 
 // An event that will be emitted from contract method call

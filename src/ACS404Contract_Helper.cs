@@ -16,7 +16,17 @@ namespace AElf.Contracts.ACS404
                 Context.GetContractAddressByName(SmartContractConstants.TokenContractSystemName);
         }
 
-        private void TransferFee(string symbol, long amount, Address from, Address to)
+        private void AssertSymbolExists(string symbol)
+        {
+            RequireTokenContractStateSet();
+
+            State.TokenContract.GetTokenInfo.Call(new GetTokenInfoInput
+            {
+                Symbol = symbol
+            });
+        }
+
+        private void TransferFee(string symbol, long amount, Address from)
         {
             if (amount <= 0)
             {
@@ -29,7 +39,7 @@ namespace AElf.Contracts.ACS404
                 From = from,
                 Amount = amount,
                 Symbol = symbol,
-                To = to,
+                To = State.ServiceWallet.Value,
                 Memo = "Transaction fee."
             });
         }

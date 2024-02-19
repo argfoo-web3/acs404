@@ -12,9 +12,15 @@ namespace AElf.Contracts.ACS404
             Assert(!State.Initialized.Value, "Already initialized.");
             Assert(input.Admin.Value != null, "Admin address is invalid!");
             Assert(input.ServiceWallet.Value != null, "Service wallet address is invalid!");
+            AssertSymbolExists(input.FungibleTokenSymbol);
+            AssertSymbolExists(input.InscriptionTokenSymbol);
 
             State.Admin.Value = input.Admin;
             State.ServiceWallet.Value = input.ServiceWallet;
+
+            State.FungibleTokenSymbol.Value = input.FungibleTokenSymbol;
+            State.InscriptionTokenSymbol.Value = input.InscriptionTokenSymbol;
+            
             State.Initialized.Value = true;
 
             return new Empty();
@@ -50,6 +56,7 @@ namespace AElf.Contracts.ACS404
 
         public override Empty Preview(Empty input)
         {
+            //TransferFee()
             return new Empty();
         }
 
@@ -61,31 +68,6 @@ namespace AElf.Contracts.ACS404
         public override Empty Mint(MintInput input)
         {
             return new Empty();
-        }
-
-        // A method that modifies the contract state
-        public override Empty Update(StringValue input)
-        {
-            // Set the message value in the contract state
-            State.Message.Value = input.Value;
-            // Emit an event to notify listeners about something happened during the execution of this method
-            Context.Fire(new UpdatedMessage
-            {
-                Value = input.Value
-            });
-            return new Empty();
-        }
-
-        // A method that read the contract state
-        public override StringValue Read(Empty input)
-        {
-            // Retrieve the value from the state
-            var value = State.Message.Value;
-            // Wrap the value in the return type
-            return new StringValue
-            {
-                Value = value
-            };
         }
 
         private void AssertSenderIsAdmin()
