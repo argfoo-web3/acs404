@@ -1,0 +1,79 @@
+syntax = "proto3";
+
+import "aelf/core.proto";
+import "aelf/options.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
+import "acs12.proto";
+// The namespace of this class
+option csharp_namespace = "AElf.Contracts.ACS404";
+
+service ACS404Contract {
+  // The name of the state class the smart contract is going to use to access blockchain state
+  option (aelf.csharp_state) = "AElf.Contracts.ACS404.ACS404ContractState";
+  option (aelf.base) = "acs12.proto";
+  
+  rpc Initialize(InitializeInput) returns (google.protobuf.Empty){
+  }
+
+  //Transfer admin to another address
+  rpc SetAdmin(aelf.Address) returns (google.protobuf.Empty) {
+
+  }
+
+  rpc GetAdmin (google.protobuf.Empty) returns (aelf.Address) {option (aelf.is_view) = true;}
+
+  // Service wallet setter
+  rpc SetServiceWallet(aelf.Address) returns (google.protobuf.Empty){
+  }
+
+  rpc GetServiceWallet (google.protobuf.Empty) returns (aelf.Address) {option (aelf.is_view) = true;}
+
+  // Previews the Inscription image.
+  rpc Preview (google.protobuf.Empty) returns (google.protobuf.Empty) {
+  }
+
+  rpc Exchange (ExchangeInput) returns (google.protobuf.Empty) {
+  }
+
+  rpc Mint (MintInput) returns (google.protobuf.Empty) {
+  }
+
+  // Actions (methods that modify contract state)
+  // Stores the value in contract state
+  rpc Update (google.protobuf.StringValue) returns (google.protobuf.Empty) {
+  }
+
+  // Views (methods that don't modify contract state)
+  // Get the value stored from contract state
+  rpc Read (google.protobuf.Empty) returns (google.protobuf.StringValue) {
+    option (aelf.is_view) = true;
+  }
+}
+
+message InitializeInput {
+  aelf.Address admin = 1;
+  aelf.Address serviceWallet = 2;
+}
+
+message ExchangeInput {
+  int64 amount = 1;
+  bool toBaseToken = 2;
+}
+
+message MintInput {
+  int64 mintTotalSupply = 1;
+}
+
+// An event that will be emitted from contract method call
+message UpdatedMessage {
+  option (aelf.is_event) = true;
+  string value = 1;
+}
+
+// An event that will be emitted from contract method call
+message SetImageEvent {
+  option (aelf.is_event) = true;
+  aelf.Address userAddress = 1;
+  bytes imageBytes = 2;
+}

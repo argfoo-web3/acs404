@@ -28,6 +28,7 @@ jobs:
         with:
           private-key: ${{ secrets.PRIVATEKEY }}
           wallet-address: ${{ secrets.WALLET_ADDRESS }}
+          dll-filename: src/bin/Debug/net6.0/ACS404Contract.dll.patched
     outputs:
       deploymentid: ${{ steps.deploy.outputs.deployment-transaction-id }}
 
