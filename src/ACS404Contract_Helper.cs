@@ -25,7 +25,7 @@ namespace AElf.Contracts.ACS404
                 Symbol = symbol
             });
 
-            Assert(tokenInfo != null, $"Symbol: {symbol} does not exists!");
+            Assert(tokenInfo != null && !string.IsNullOrEmpty(tokenInfo.Symbol), $"Symbol: {symbol} does not exists!");
         }
 
         private void TransferFee(string symbol, long amount, Address from)

@@ -1,5 +1,7 @@
+using System;
 using AElf.Sdk.CSharp;
 using AElf.Types;
+using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
 
 namespace AElf.Contracts.ACS404
@@ -56,7 +58,15 @@ namespace AElf.Contracts.ACS404
 
         public override Empty Preview(Empty input)
         {
+            State.PreviewState[Context.Sender] = ByteString.Empty;
             TransferFee(State.FungibleTokenSymbol.Value, ContractConstants.PreviewFee, Context.Sender);
+            
+            Context.Fire(new PreviewEvent
+            {
+                UserAddress = Context.Sender,
+                Traits = 0 //TODO
+            });
+            
             return new Empty();
         }
 

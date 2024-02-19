@@ -56,7 +56,14 @@ message MintInput {
   int64 mintTotalSupply = 1;
 }
 
-// An event that will be emitted from contract method call
+// An event that will be emitted when preview method is called and completed
+message PreviewEvent {
+  option (aelf.is_event) = true;
+  aelf.Address userAddress = 1;
+  int64 traits = 2;
+}
+
+// An event that will be emitted when an image is uploaded
 message SetImageEvent {
   option (aelf.is_event) = true;
   aelf.Address userAddress = 1;
