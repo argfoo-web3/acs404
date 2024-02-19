@@ -56,7 +56,7 @@ namespace AElf.Contracts.ACS404
 
         public override Empty Preview(Empty input)
         {
-            //TransferFee()
+            TransferFee(State.FungibleTokenSymbol.Value, ContractConstants.PreviewFee, Context.Sender);
             return new Empty();
         }
 
