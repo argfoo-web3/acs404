@@ -20,10 +20,12 @@ namespace AElf.Contracts.ACS404
         {
             RequireTokenContractStateSet();
 
-            State.TokenContract.GetTokenInfo.Call(new GetTokenInfoInput
+            var tokenInfo = State.TokenContract.GetTokenInfo.Call(new GetTokenInfoInput
             {
                 Symbol = symbol
             });
+
+            Assert(tokenInfo != null, $"Symbol: {symbol} does not exists!");
         }
 
         private void TransferFee(string symbol, long amount, Address from)
