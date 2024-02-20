@@ -87,6 +87,11 @@ namespace AElf.Contracts.ACS404
             return new Empty();
         }
 
+        public override BytesValue PreviewImage(PreviewImageInput input)
+        {
+            return new BytesValue { Value = State.PreviewState[input.UserAddress] };
+        }
+
         public override Empty Exchange(ExchangeInput input)
         {
             return new Empty();

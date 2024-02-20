@@ -13,33 +13,41 @@ service ACS404Contract {
   option (aelf.csharp_state) = "AElf.Contracts.ACS404.ACS404ContractState";
   option (aelf.base) = "acs12.proto";
   
+  // Initialize the contract
   rpc Initialize(InitializeInput) returns (google.protobuf.Empty){
   }
 
-  //Transfer admin to another address
+  // Set admin to another address
   rpc SetAdmin(aelf.Address) returns (google.protobuf.Empty) {
 
   }
 
+  // Get current admin address
   rpc GetAdmin (google.protobuf.Empty) returns (aelf.Address) {option (aelf.is_view) = true;}
 
-  // Service wallet setter
+  // Set service wallet used to collect fees
   rpc SetServiceWallet(aelf.Address) returns (google.protobuf.Empty){
   }
 
+  // Get current service wallet used to collect fees
   rpc GetServiceWallet (google.protobuf.Empty) returns (aelf.Address) {option (aelf.is_view) = true;}
 
   // Previews the Inscription image.
   rpc Preview (google.protobuf.Empty) returns (google.protobuf.Empty) {
   }
 
-  // Uploads an image
+  // Uploads an image when a preview is requested
   rpc UploadImage (UploadImageInput) returns (google.protobuf.Empty) {
   }
 
+  // Returns the image uploaded for preview
+  rpc PreviewImage (PreviewImageInput) returns (google.protobuf.BytesValue) {option (aelf.is_view) = true;}
+
+  // Exchanges Fungible token for Inscription tokens and vice-versa
   rpc Exchange (ExchangeInput) returns (google.protobuf.Empty) {
   }
 
+  // Mints the inscription provided in the preview
   rpc Mint (MintInput) returns (google.protobuf.Empty) {
   }
 }
@@ -55,6 +63,10 @@ message InitializeInput {
 message UploadImageInput {
   aelf.Address userAddress = 1;
   bytes imageBytes = 2;
+}
+
+message PreviewImageInput {
+  aelf.Address userAddress = 1;
 }
 
 message ExchangeInput {
